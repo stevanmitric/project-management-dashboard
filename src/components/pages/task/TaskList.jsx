@@ -10,8 +10,8 @@ import {
   Modal,
   Typography,
 } from 'antd';
-import axios from 'axios';
 import { useState } from 'react';
+import { tasksAPI } from '../../api/task';
 import TaskModal from '../../modals/TaskModal';
 
 export default function TaskList({ title, tasks, projectId, listId }) {
@@ -36,18 +36,7 @@ export default function TaskList({ title, tasks, projectId, listId }) {
 
   const handleAddTask = async task => {
     try {
-      await axios.post(
-        `${import.meta.env.VITE_APP_API_URL}/api/tasks`,
-        {
-          task,
-          listId,
-        },
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        }
-      );
+      await tasksAPI.createTask(task);
 
       setShowTaskModal(false);
       window.location.reload();
@@ -67,18 +56,7 @@ export default function TaskList({ title, tasks, projectId, listId }) {
 
   const handleUpdateTask = async task => {
     try {
-      await axios.put(
-        `${import.meta.env.VITE_APP_API_URL}/api/task/${selectedTask._id}`,
-        {
-          task,
-          listId,
-        },
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        }
-      );
+      await tasksAPI.updateTask(task, listId, selectedTask);
       setShowTaskModal(false);
       window.location.reload();
     } catch (error) {
@@ -88,11 +66,7 @@ export default function TaskList({ title, tasks, projectId, listId }) {
 
   const handleDeleteTask = async id => {
     try {
-      await axios.delete(`${import.meta.env.VITE_APP_API_URL}/api/task/${id}`, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
+      await tasksAPI.deleteTask(id);
       setShowTaskModal(false);
       window.location.reload();
     } catch (error) {
@@ -102,11 +76,7 @@ export default function TaskList({ title, tasks, projectId, listId }) {
 
   const handleDeleteList = async id => {
     try {
-      await axios.delete(`${import.meta.env.VITE_APP_API_URL}/api/list/${id}`, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
+      await tasksAPI.deleteTaskList(id);
 
       window.location.reload();
     } catch (error) {

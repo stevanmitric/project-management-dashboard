@@ -1,13 +1,13 @@
 import { PlusOutlined, UserAddOutlined, UserOutlined } from '@ant-design/icons';
 import { Avatar, Button, Modal, Select } from 'antd';
-import axios from 'axios';
 import moment from 'moment';
 import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
+import { projectsAPI } from '../../api/project';
 import SearchBar from '../../forms/SearchBar';
 import TaskListModal from '../../modals/TaskListModal';
 import TaskList from '../task/TaskList';
-import TasksTable from '../task/TasksTable';
+import Tasks from '../task/Tasks';
 import Timeline from '../timeline/Timeline';
 
 export default function SingleProject() {
@@ -26,10 +26,6 @@ export default function SingleProject() {
     setSearchQuery(query);
   };
 
-  const token = localStorage.getItem('token');
-
-  console.log('TOKEN', token);
-
   const filteredTasks = tasks?.filter(
     task =>
       task.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
@@ -38,17 +34,8 @@ export default function SingleProject() {
 
   const getSingleProject = async id => {
     try {
-      const response = await axios.get(
-        `${import.meta.env.VITE_APP_API_URL}/api/project/${id}`,
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        }
-      );
-      if (response.status === 200) {
-        setProject(response.data);
-      }
+      const response = await projectsAPI.getProjectById(id);
+      setProject(response);
     } catch (error) {
       console.error(error);
     }
@@ -56,21 +43,9 @@ export default function SingleProject() {
 
   const getAllTasks = async projectId => {
     try {
-      const filter = { projectId: projectId };
-      const response = await axios.get(
-        `${import.meta.env.VITE_APP_API_URL}/api/tasks`,
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-          params: {
-            filter: JSON.stringify(filter),
-          },
-        }
-      );
-      if (response.status === 200) {
-        setTasks(response.data);
-      }
+      const response = await projectsAPI.getTasksByProjectId(projectId);
+
+      setTasks(response);
     } catch (error) {
       console.error(error);
     }
@@ -78,21 +53,9 @@ export default function SingleProject() {
 
   const getAllLists = async projectId => {
     try {
-      const filter = { projectId: projectId };
-      const response = await axios.get(
-        `${import.meta.env.VITE_APP_API_URL}/api/lists`,
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-          params: {
-            filter: JSON.stringify(filter),
-          },
-        }
-      );
-      if (response.status === 200) {
-        setLists(response.data);
-      }
+      const response = await projectsAPI.getListsByProjectId(projectId);
+
+      setLists(response);
     } catch (error) {
       console.error(error);
     }
@@ -108,19 +71,9 @@ export default function SingleProject() {
 
   const handleAddList = async list => {
     try {
-      const response = await axios.post(
-        `${import.meta.env.VITE_APP_API_URL}/api/lists`,
-        list,
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        }
-      );
-      if (response.status === 201) {
-        setShowListModal(false);
-        getAllLists(id); // Re-fetch lists after adding
-      }
+      await projectsAPI.createTaskList(list);
+      setShowListModal(false);
+      getAllLists(id);
     } catch (error) {
       console.error(error);
     }
@@ -203,7 +156,7 @@ export default function SingleProject() {
             </Modal>
           </>
         ) : view === 'table' ? (
-          <TasksTable />
+          <Tasks />
         ) : (
           <Timeline tasks={tasks} />
         )}

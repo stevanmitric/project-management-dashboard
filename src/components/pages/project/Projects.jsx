@@ -1,10 +1,11 @@
 import { PlusOutlined } from '@ant-design/icons';
 import { Button, Layout, Modal, Select, Typography, theme } from 'antd';
-import axios from 'axios';
 import { useEffect, useState } from 'react';
 import SearchBar from '../../forms/SearchBar';
 import NewProject from '../../modals/NewProject';
 import SingleProjectCard from '../../SingleProjectCard';
+
+import { projectsAPI } from '../../api/project';
 
 const { Title } = Typography;
 
@@ -17,27 +18,15 @@ export default function Projects() {
 
   const [selectedTypes, setSelectedTypes] = useState([]);
 
-  const token = localStorage.getItem('token');
-
   const {
     token: { colorBgContainer },
   } = theme.useToken();
 
   const getAllProjects = async () => {
     try {
-      const response = await axios.get(
-        `${import.meta.env.VITE_APP_API_URL}/api/projects`,
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        }
-      );
-      if (response.status === 200) {
-        setProjects(response.data);
-      } else {
-        console.error('Something went wrong!');
-      }
+      const response = await projectsAPI.getAllProjects();
+
+      setProjects(response);
     } catch (error) {
       console.error('error', error);
     }
@@ -49,15 +38,7 @@ export default function Projects() {
 
   const handleAddProject = async project => {
     try {
-      const addProject = await axios.post(
-        `${import.meta.env.VITE_APP_API_URL}/api/project`,
-        project,
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        }
-      );
+      await projectsAPI.createProject(project);
       setShowProjectModal(false);
       getAllProjects(); // Refresh the project list
     } catch (error) {

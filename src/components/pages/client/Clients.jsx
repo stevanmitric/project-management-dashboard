@@ -1,6 +1,6 @@
 import { Button, Layout, Modal, Table, Typography, theme } from 'antd';
-import axios from 'axios';
 import { useEffect, useState } from 'react';
+import { clientsAPI } from '../../api/client';
 import '../../DarkModeTable.css';
 import NewClient from '../../modals/NewClient';
 
@@ -11,26 +11,15 @@ export default function Clients() {
 
   const { Content } = Layout;
 
-  const token = localStorage.getItem('token');
-
   const {
     token: { colorBgContainer },
   } = theme.useToken();
 
   const getAllClients = async () => {
     try {
-      const response = await axios.get(
-        `${import.meta.env.VITE_APP_API_URL}/api/clients`,
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        }
-      );
+      const response = await clientsAPI.getAllClients();
 
-      if (response.status === 200) {
-        setClients(response.data);
-      }
+      setClients(response);
     } catch (error) {
       console.error('Error: ', error);
     }
@@ -41,19 +30,15 @@ export default function Clients() {
   }, []);
 
   const handleAddClient = async client => {
-    const addClient = await axios.post(
-      `${import.meta.env.VITE_APP_API_URL}/api/clients`,
-      client,
-      {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      }
-    );
+    try {
+      await clientsAPI.createClient(client);
 
-    setShowClientModal(false);
+      setShowClientModal(false);
 
-    window.location.reload();
+      window.location.reload();
+    } catch (error) {
+      console.error(error);
+    }
   };
 
   const handleCancel = () => {

@@ -1,29 +1,17 @@
 import { Button, Form, Input, Select, notification } from 'antd';
-import axios from 'axios';
 import React, { useEffect } from 'react';
 import { useParams } from 'react-router-dom';
+import { usersAPI } from '../../api/user';
 
 export default function EditUser() {
   const { id } = useParams();
 
   const [form] = Form.useForm();
 
-  const token = localStorage.getItem('token');
-
   const getUserData = async id => {
     try {
-      const response = await axios.get(
-        `${import.meta.env.VITE_APP_API_URL}/api/user/${id}`,
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        }
-      );
-
-      if (response.status === 200) {
-        form.setFieldsValue(response.data);
-      }
+      const response = await usersAPI.getUserById(id);
+      form.setFieldsValue(response);
     } catch (error) {
       console.error(error);
     }
@@ -31,15 +19,7 @@ export default function EditUser() {
 
   const handleUpdateUser = async user => {
     try {
-      const response = await axios.put(
-        `${import.meta.env.VITE_APP_API_URL}/api/user/${id}`,
-        user,
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        }
-      );
+      const response = await usersAPI.updateUserById(user, id);
 
       if (response.status === 200) {
         notification.success({

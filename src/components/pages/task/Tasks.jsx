@@ -12,8 +12,8 @@ import axios from 'axios';
 import moment from 'moment';
 import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
-import './DarkModeTable.css';
-import TaskModal from './modals/TaskModal';
+import '../../DarkModeTable.css';
+import TaskModal from '../../modals/TaskModal';
 
 export default function Tasks() {
   const { Title } = Typography;
@@ -34,13 +34,11 @@ export default function Tasks() {
       const response = await axios.get(
         `${import.meta.env.VITE_APP_API_URL}/api/tasks`,
         {
-          params: {
-            filter: JSON.stringify(filter),
-          },
-        },
-        {
           headers: {
             Authorization: `Bearer ${token}`,
+          },
+          params: {
+            filter: JSON.stringify(filter),
           },
         }
       );
@@ -150,7 +148,7 @@ export default function Tasks() {
 
   return (
     <Content className={`p-2 m-0 ${colorBgContainer} rounded-lg h-full`}>
-      <Title level={2}>List</Title>
+      <Title level={2}>Tasks</Title>
       <Button
         type='primary'
         onClick={handleOpenModal}

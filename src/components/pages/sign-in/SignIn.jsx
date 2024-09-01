@@ -1,7 +1,7 @@
 import { Button, Checkbox, Form, Input, notification, Typography } from 'antd';
-import axios from 'axios';
 import { useContext, useState } from 'react';
 import { AuthContext } from '../../../AuthProvider';
+import { signInAPI } from '../../api/sign-in';
 
 export default function SignIn() {
   const [formData, setFormData] = useState({
@@ -23,10 +23,7 @@ export default function SignIn() {
 
   const handleSubmit = async () => {
     try {
-      const response = await axios.post(
-        `${import.meta.env.VITE_APP_API_URL}/api/login`,
-        formData
-      );
+      const response = await signInAPI.signIn(formData);
 
       if (response.data.token) {
         // Call the login function from AuthContext with user data and token
@@ -39,7 +36,10 @@ export default function SignIn() {
         }, 500);
       } else {
         // Handle login error (e.g., show an error message)
-        alert('Login failed');
+        notification.error({
+          message: 'Failed',
+          description: 'Login failed!',
+        });
       }
     } catch (error) {
       console.error('Error during sign in: ', error);

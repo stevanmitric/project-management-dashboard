@@ -1,7 +1,7 @@
 import { Button, Layout, Modal, Table, Typography, theme } from 'antd';
-import axios from 'axios';
 import moment from 'moment';
 import { useEffect, useState } from 'react';
+import { usersAPI } from '../../api/user';
 import '../../DarkModeTable.css';
 import NewUser from '../../modals/NewUser';
 
@@ -14,22 +14,11 @@ export default function User() {
   } = theme.useToken();
   const [users, setUsers] = useState([]);
   const [showUserModal, setShowUserModal] = useState(false);
-  const token = localStorage.getItem('token');
 
   const getAllUsers = async () => {
     try {
-      const response = await axios.get(
-        `${import.meta.env.VITE_APP_API_URL}/api/users`,
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        }
-      );
-
-      if (response.status === 200) {
-        setUsers(response.data);
-      }
+      const response = await usersAPI.getAllUsers();
+      setUsers(response);
     } catch (error) {
       console.error('Error: ', error);
     }
@@ -41,13 +30,9 @@ export default function User() {
 
   const handleAddUser = async user => {
     try {
-      await axios.post(`${import.meta.env.VITE_APP_API_URL}/api/users`, user, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
+      await usersAPI.createUser(user);
       setShowUserModal(false);
-      getAllUsers(); // Refresh the user list after adding a new user
+      getAllUsers();
     } catch (error) {
       console.error('Error adding user:', error);
     }

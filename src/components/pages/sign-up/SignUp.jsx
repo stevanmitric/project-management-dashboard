@@ -1,6 +1,6 @@
 import { Button, Checkbox, Form, Input, Typography } from 'antd';
-import axios from 'axios';
 import { useState } from 'react';
+import { signUpAPI } from '../../api/sign-up';
 
 export default function SignUp() {
   const [formData, setFormData] = useState({
@@ -23,10 +23,7 @@ export default function SignUp() {
 
   const handleSubmit = async () => {
     try {
-      const response = await axios.post(
-        `${import.meta.env.VITE_APP_API_URL}/api/register`,
-        formData
-      );
+      const response = await signUpAPI.signUp(formData);
 
       if (response.status === 201) {
         window.location.href = '/login';

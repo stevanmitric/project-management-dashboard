@@ -15,7 +15,7 @@ import ProtectedRoute from './ProtectedRoute';
 
 function App() {
   return (
-    <div className='overflow-hidden'>
+    <div className='overflow-hidden overflow-y-scroll no-scrollbar'>
       <AuthProvider>
         <BrowserRouter>
           <Routes>

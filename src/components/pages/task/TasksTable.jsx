@@ -148,7 +148,7 @@ export default function TasksTable() {
 
   return (
     <Content className={`p-2 m-0 ${colorBgContainer} rounded-lg h-full`}>
-      <Title level={2}>List</Title>
+      <Title level={2}>Tasks</Title>
       <Button
         type='primary'
         onClick={handleOpenModal}
