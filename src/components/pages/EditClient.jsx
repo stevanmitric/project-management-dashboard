@@ -8,9 +8,16 @@ export default function EditClient() {
 
   const { id } = useParams();
 
+  const token = localStorage.getItem('token');
+
   const getClientById = async id => {
     const response = await axios.get(
-      `${import.meta.env.VITE_APP_API_URL}/api/client/${id}`
+      `${import.meta.env.VITE_APP_API_URL}/api/client/${id}`,
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
     );
 
     if (response.status === 200) {
@@ -28,6 +35,11 @@ export default function EditClient() {
         {
           params: {
             filter: JSON.stringify(filter),
+          },
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
           },
         }
       );
@@ -52,7 +64,12 @@ export default function EditClient() {
     try {
       const addClient = await axios.put(
         `${import.meta.env.VITE_APP_API_URL}/api/client/${id}`,
-        client
+        client,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
       );
 
       if (addClient.status === 200) {
@@ -150,9 +167,9 @@ export default function EditClient() {
         <Button
           type='primary'
           htmlType='submit'
-          className='w-full rounded-lg text-white bg-blue-700 hover:bg-blue-800 dark:bg-blue-600 dark:hover:bg-blue-700'
+          className='w-full rounded-lg text-white bg-dark-navy'
         >
-          Save Client
+          Update Client
         </Button>
       </Form.Item>
     </Form>

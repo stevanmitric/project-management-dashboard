@@ -7,6 +7,8 @@ export default function NewClient({ onAdd }) {
 
   const [managers, setManagers] = useState([]);
 
+  const token = localStorage.getItem('token');
+
   const getAllManagers = async () => {
     try {
       const filter = { role: 'manager' };
@@ -15,6 +17,11 @@ export default function NewClient({ onAdd }) {
         {
           params: {
             filter: JSON.stringify(filter),
+          },
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
           },
         }
       );
@@ -125,7 +132,7 @@ export default function NewClient({ onAdd }) {
         <Button
           type='primary'
           htmlType='submit'
-          className='w-full rounded-lg text-white bg-blue-700 hover:bg-blue-800 dark:bg-blue-600 dark:hover:bg-blue-700'
+          className='w-full rounded-lg text-white bg-dark-navy'
         >
           Save Client
         </Button>

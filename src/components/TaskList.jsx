@@ -22,6 +22,8 @@ export default function TaskList({ title, tasks, projectId, listId }) {
 
   const filteredList = tasks.filter(task => task.status === title);
 
+  const token = localStorage.getItem('token');
+
   const handleOpenModal = task => {
     setSelectedTask(task);
     setShowTaskModal(true);
@@ -34,10 +36,18 @@ export default function TaskList({ title, tasks, projectId, listId }) {
 
   const handleAddTask = async task => {
     try {
-      await axios.post(`${import.meta.env.VITE_APP_API_URL}/api/tasks`, {
-        task,
-        listId,
-      });
+      await axios.post(
+        `${import.meta.env.VITE_APP_API_URL}/api/tasks`,
+        {
+          task,
+          listId,
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
 
       setShowTaskModal(false);
       window.location.reload();
@@ -62,6 +72,11 @@ export default function TaskList({ title, tasks, projectId, listId }) {
         {
           task,
           listId,
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
         }
       );
       setShowTaskModal(false);
@@ -73,7 +88,11 @@ export default function TaskList({ title, tasks, projectId, listId }) {
 
   const handleDeleteTask = async id => {
     try {
-      await axios.delete(`${import.meta.env.VITE_APP_API_URL}/api/task/${id}`);
+      await axios.delete(`${import.meta.env.VITE_APP_API_URL}/api/task/${id}`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
       setShowTaskModal(false);
       window.location.reload();
     } catch (error) {
@@ -83,7 +102,11 @@ export default function TaskList({ title, tasks, projectId, listId }) {
 
   const handleDeleteList = async id => {
     try {
-      await axios.delete(`${import.meta.env.VITE_APP_API_URL}/api/list/${id}`);
+      await axios.delete(`${import.meta.env.VITE_APP_API_URL}/api/list/${id}`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
 
       window.location.reload();
     } catch (error) {

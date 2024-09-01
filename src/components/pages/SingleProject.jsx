@@ -26,6 +26,8 @@ export default function SingleProject() {
     setSearchQuery(query);
   };
 
+  const token = localStorage.getItem('token');
+
   const filteredTasks = tasks?.filter(
     task =>
       task.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
@@ -35,7 +37,12 @@ export default function SingleProject() {
   const getSingleProject = async id => {
     try {
       const response = await axios.get(
-        `${import.meta.env.VITE_APP_API_URL}/api/project/${id}`
+        `${import.meta.env.VITE_APP_API_URL}/api/project/${id}`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
       );
       if (response.status === 200) {
         setProject(response.data);
@@ -53,6 +60,11 @@ export default function SingleProject() {
         {
           params: {
             filter: JSON.stringify(filter),
+          },
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
           },
         }
       );
@@ -72,6 +84,11 @@ export default function SingleProject() {
         {
           params: {
             filter: JSON.stringify(filter),
+          },
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
           },
         }
       );
@@ -95,7 +112,12 @@ export default function SingleProject() {
     try {
       const response = await axios.post(
         `${import.meta.env.VITE_APP_API_URL}/api/lists`,
-        list
+        list,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
       );
       if (response.status === 201) {
         setShowListModal(false);

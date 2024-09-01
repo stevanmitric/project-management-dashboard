@@ -21,6 +21,7 @@ export default function TasksTable() {
   const { Content } = Layout;
 
   const { id } = useParams();
+  const token = localStorage.getItem('token');
   const {
     token: { colorBgContainer },
   } = theme.useToken();
@@ -35,6 +36,11 @@ export default function TasksTable() {
         {
           params: {
             filter: JSON.stringify(filter),
+          },
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
           },
         }
       );
@@ -52,7 +58,11 @@ export default function TasksTable() {
 
   const handleAddTask = async task => {
     try {
-      await axios.post(`${import.meta.env.VITE_APP_API_URL}/api/tasks`, task);
+      await axios.post(`${import.meta.env.VITE_APP_API_URL}/api/tasks`, task, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
       setShowTaskModal(false);
       getAllTasks();
     } catch (error) {
@@ -62,7 +72,11 @@ export default function TasksTable() {
 
   const handleDeleteTask = async id => {
     try {
-      await axios.delete(`${import.meta.env.VITE_APP_API_URL}/api/task/${id}`);
+      await axios.delete(`${import.meta.env.VITE_APP_API_URL}/api/task/${id}`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
       setShowTaskModal(false);
       window.location.reload();
     } catch (error) {

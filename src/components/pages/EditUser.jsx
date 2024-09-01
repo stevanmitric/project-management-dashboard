@@ -8,10 +8,17 @@ export default function EditUser() {
 
   const [form] = Form.useForm();
 
+  const token = localStorage.getItem('token');
+
   const getUserData = async id => {
     try {
       const response = await axios.get(
-        `${import.meta.env.VITE_APP_API_URL}/api/user/${id}`
+        `${import.meta.env.VITE_APP_API_URL}/api/user/${id}`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
       );
 
       if (response.status === 200) {
@@ -26,7 +33,12 @@ export default function EditUser() {
     try {
       const response = await axios.put(
         `${import.meta.env.VITE_APP_API_URL}/api/user/${id}`,
-        user
+        user,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
       );
 
       if (response.status === 200) {

@@ -11,6 +11,8 @@ export default function Clients() {
 
   const { Content } = Layout;
 
+  const token = localStorage.getItem('token');
+
   const {
     token: { colorBgContainer },
   } = theme.useToken();
@@ -18,7 +20,12 @@ export default function Clients() {
   const getAllClients = async () => {
     try {
       const response = await axios.get(
-        `${import.meta.env.VITE_APP_API_URL}/api/clients`
+        `${import.meta.env.VITE_APP_API_URL}/api/clients`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
       );
 
       if (response.status === 200) {
@@ -36,7 +43,12 @@ export default function Clients() {
   const handleAddClient = async client => {
     const addClient = await axios.post(
       `${import.meta.env.VITE_APP_API_URL}/api/clients`,
-      client
+      client,
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
     );
 
     setShowClientModal(false);

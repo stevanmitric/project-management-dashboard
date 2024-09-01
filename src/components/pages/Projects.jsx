@@ -17,6 +17,8 @@ export default function Projects() {
 
   const [selectedTypes, setSelectedTypes] = useState([]);
 
+  const token = localStorage.getItem('token');
+
   const {
     token: { colorBgContainer },
   } = theme.useToken();
@@ -24,7 +26,12 @@ export default function Projects() {
   const getAllProjects = async () => {
     try {
       const response = await axios.get(
-        `${import.meta.env.VITE_APP_API_URL}/api/projects`
+        `${import.meta.env.VITE_APP_API_URL}/api/projects`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
       );
       if (response.status === 200) {
         setProjects(response.data);
@@ -44,7 +51,12 @@ export default function Projects() {
     try {
       const addProject = await axios.post(
         `${import.meta.env.VITE_APP_API_URL}/api/project`,
-        project
+        project,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
       );
       setShowProjectModal(false);
       getAllProjects(); // Refresh the project list

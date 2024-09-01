@@ -14,11 +14,17 @@ export default function User() {
   } = theme.useToken();
   const [users, setUsers] = useState([]);
   const [showUserModal, setShowUserModal] = useState(false);
+  const token = localStorage.getItem('token');
 
   const getAllUsers = async () => {
     try {
       const response = await axios.get(
-        `${import.meta.env.VITE_APP_API_URL}/api/users`
+        `${import.meta.env.VITE_APP_API_URL}/api/users`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
       );
 
       if (response.status === 200) {
@@ -35,7 +41,11 @@ export default function User() {
 
   const handleAddUser = async user => {
     try {
-      await axios.post(`${import.meta.env.VITE_APP_API_URL}/api/users`, user);
+      await axios.post(`${import.meta.env.VITE_APP_API_URL}/api/users`, user, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
       setShowUserModal(false);
       getAllUsers(); // Refresh the user list after adding a new user
     } catch (error) {
