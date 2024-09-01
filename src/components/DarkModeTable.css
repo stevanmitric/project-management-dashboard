@@ -1,0 +1,48 @@
+/* DarkModeTable.css */
+.dark-mode-table .ant-table-thead > tr > th {
+    background-color: #111827; /* Dark background for table header */
+    color: #fff; /* Light text color for header */
+  }
+  
+  .dark-mode-table .ant-table-tbody > tr > td {
+    background-color: #111827; /* Dark background for table rows */
+    color: #e0e0e0; /* Light text color for rows */
+  }
+
+  .dark-mode-table .ant-table-empty .ant-empty-description {
+    color: #fff; /* White text color for "No Data" */
+  }
+
+  .ant-table-empty:hover .ant-empty-description {
+    color: #000000; /* White text color for "No Data" */
+  }
+
+  .dark-mode-table .ant-table-tbody > tr:hover > td {
+    color: #000; /* Black text color on hover */
+  }
+  
+  .dark-mode-table .ant-pagination-item,
+  .dark-mode-table .ant-pagination-next,
+  .dark-mode-table .ant-pagination-prev {
+    color: #e0e0e0; /* Light color for pagination items */
+    border-color: #333; /* Dark border color for pagination items */
+  }
+
+  .dark-mode-table .ant-pagination-item:hover,
+  .dark-mode-table .ant-pagination-next:hover,
+  .dark-mode-table .ant-pagination-prev:hover {
+    color: #e0e0e0; /* Light color for pagination items */
+    border-color: #fff; /* Dark border color for pagination items */
+    background-color: #fff;
+  }
+  
+  .dark-mode-table .ant-pagination-item-active {
+    background-color: #333; /* Dark background for active pagination item */
+    color: #fff; /* Light color for active pagination item */
+  }
+
+  .dark-mode-table :hover a {
+    color: #000;
+  }
+
+  
