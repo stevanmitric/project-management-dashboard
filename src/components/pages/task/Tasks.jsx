@@ -15,7 +15,7 @@ import { useParams } from 'react-router-dom';
 import './DarkModeTable.css';
 import TaskModal from './modals/TaskModal';
 
-export default function TasksTable() {
+export default function Tasks() {
   const { Title } = Typography;
 
   const { Content } = Layout;

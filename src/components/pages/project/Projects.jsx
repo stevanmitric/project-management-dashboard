@@ -2,9 +2,9 @@ import { PlusOutlined } from '@ant-design/icons';
 import { Button, Layout, Modal, Select, Typography, theme } from 'antd';
 import axios from 'axios';
 import { useEffect, useState } from 'react';
-import NewProject from '../modals/NewProject';
-import SearchBar from '../SearchBar';
-import SingleProjectCard from '../SingleProjectCard';
+import SearchBar from '../../forms/SearchBar';
+import NewProject from '../../modals/NewProject';
+import SingleProjectCard from '../../SingleProjectCard';
 
 const { Title } = Typography;
 

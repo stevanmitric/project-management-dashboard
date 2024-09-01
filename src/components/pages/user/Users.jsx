@@ -2,8 +2,8 @@ import { Button, Layout, Modal, Table, Typography, theme } from 'antd';
 import axios from 'axios';
 import moment from 'moment';
 import { useEffect, useState } from 'react';
-import '../DarkModeTable.css';
-import NewUser from '../modals/NewUser';
+import '../../DarkModeTable.css';
+import NewUser from '../../modals/NewUser';
 
 export default function User() {
   const { Title } = Typography;

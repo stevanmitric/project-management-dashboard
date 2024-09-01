@@ -1,7 +1,7 @@
 import { Button, Checkbox, Form, Input, notification, Typography } from 'antd';
 import axios from 'axios';
 import { useContext, useState } from 'react';
-import { AuthContext } from '../../AuthProvider';
+import { AuthContext } from '../../../AuthProvider';
 
 export default function SignIn() {
   const [formData, setFormData] = useState({

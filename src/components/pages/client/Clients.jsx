@@ -1,8 +1,8 @@
 import { Button, Layout, Modal, Table, Typography, theme } from 'antd';
 import axios from 'axios';
 import { useEffect, useState } from 'react';
-import '../DarkModeTable.css';
-import NewClient from '../modals/NewClient';
+import '../../DarkModeTable.css';
+import NewClient from '../../modals/NewClient';
 
 export default function Clients() {
   const [clients, setClients] = useState([]);

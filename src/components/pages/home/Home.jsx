@@ -1,8 +1,8 @@
 import { Layout, Menu } from 'antd';
 import React, { useState } from 'react';
 import { Outlet, useLocation } from 'react-router-dom';
-import { items } from '../../helpers/sidebar-items';
-import UserModal from '../modals/UserModal';
+import { items } from '../../../helpers/sidebar-items';
+import UserModal from '../../modals/UserModal';
 
 export default function Home() {
   const { Header, Sider } = Layout;
@@ -19,7 +19,6 @@ export default function Home() {
     '/projects': '5',
   };
 
-  // Get the key for the current pathname
   const selectedKey = keyMapping[location.pathname];
 
   return (

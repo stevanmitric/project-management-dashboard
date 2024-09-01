@@ -4,11 +4,11 @@ import axios from 'axios';
 import moment from 'moment';
 import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
-import TaskListModal from '../modals/TaskListModal';
-import SearchBar from '../SearchBar';
-import TaskList from '../TaskList';
-import TasksTable from '../TasksTable';
-import Timeline from './Timeline';
+import SearchBar from '../../forms/SearchBar';
+import TaskListModal from '../../modals/TaskListModal';
+import TaskList from '../task/TaskList';
+import TasksTable from '../task/TasksTable';
+import Timeline from '../timeline/Timeline';
 
 export default function SingleProject() {
   const { id } = useParams();
@@ -27,6 +27,8 @@ export default function SingleProject() {
   };
 
   const token = localStorage.getItem('token');
+
+  console.log('TOKEN', token);
 
   const filteredTasks = tasks?.filter(
     task =>
@@ -58,13 +60,11 @@ export default function SingleProject() {
       const response = await axios.get(
         `${import.meta.env.VITE_APP_API_URL}/api/tasks`,
         {
-          params: {
-            filter: JSON.stringify(filter),
-          },
-        },
-        {
           headers: {
             Authorization: `Bearer ${token}`,
+          },
+          params: {
+            filter: JSON.stringify(filter),
           },
         }
       );
@@ -82,13 +82,11 @@ export default function SingleProject() {
       const response = await axios.get(
         `${import.meta.env.VITE_APP_API_URL}/api/lists`,
         {
-          params: {
-            filter: JSON.stringify(filter),
-          },
-        },
-        {
           headers: {
             Authorization: `Bearer ${token}`,
+          },
+          params: {
+            filter: JSON.stringify(filter),
           },
         }
       );

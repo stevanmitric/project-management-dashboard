@@ -1,16 +1,16 @@
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import AuthProvider from './AuthProvider';
-import Clients from './components/pages/Clients';
-import Dashboard from './components/pages/Dashboard';
-import EditClient from './components/pages/EditClient';
-import EditUser from './components/pages/EditUser';
-import Home from './components/pages/Home';
-import Inbox from './components/pages/Inbox';
-import Projects from './components/pages/Projects';
-import SignIn from './components/pages/SignIn';
-import SignUp from './components/pages/SignUp';
-import SingleProject from './components/pages/SingleProject';
-import Users from './components/pages/Users';
+import EditClient from './components/forms/EditClient';
+import Clients from './components/pages/client/Clients';
+import Dashboard from './components/pages/dashboard/Dashboard';
+import Home from './components/pages/home/Home';
+import Inbox from './components/pages/inbox/Inbox';
+import Projects from './components/pages/project/Projects';
+import SingleProject from './components/pages/project/SingleProject';
+import SignIn from './components/pages/sign-in/SignIn';
+import SignUp from './components/pages/sign-up/SignUp';
+import EditUser from './components/pages/user/EditUser';
+import Users from './components/pages/user/Users';
 import ProtectedRoute from './ProtectedRoute';
 
 function App() {

@@ -12,7 +12,7 @@ import {
 } from 'antd';
 import axios from 'axios';
 import { useState } from 'react';
-import TaskModal from './modals/TaskModal';
+import TaskModal from '../../modals/TaskModal';
 
 export default function TaskList({ title, tasks, projectId, listId }) {
   const [showTaskModal, setShowTaskModal] = useState(false);
