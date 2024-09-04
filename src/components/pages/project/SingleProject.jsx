@@ -126,7 +126,7 @@ export default function SingleProject() {
         </Select>
       </div>
 
-      <div className='flex justify-items-start'>
+      <div className='flex flex-wrap justify-items-start'>
         {view === 'board' ? (
           <>
             {lists &&

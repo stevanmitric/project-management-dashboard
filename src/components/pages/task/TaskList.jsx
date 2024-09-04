@@ -85,7 +85,7 @@ export default function TaskList({ title, tasks, projectId, listId }) {
   };
 
   return (
-    <div className='flex ml-3'>
+    <div className='flex ml-3 mb-6'>
       <List
         itemLayout='vertical'
         size='small'
