@@ -62,7 +62,7 @@ export default function User() {
       title: 'Role',
       dataIndex: 'role',
       key: 'role',
-      render: text => (text ? text : 'Admin'),
+      render: text => (text ? `${text}` : 'Admin'),
     },
     {
       title: 'Created At',

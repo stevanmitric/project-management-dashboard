@@ -5,8 +5,6 @@ const token = localStorage.getItem('token');
 export const projectsAPI = {
   getAllProjects: async () => {
     try {
-      console.log('token', token);
-
       const response = await axios.get(
         `${import.meta.env.VITE_APP_API_URL}/api/projects`,
         {

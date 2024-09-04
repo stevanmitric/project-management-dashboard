@@ -45,7 +45,7 @@ export default function UserModal() {
               className='text-sm font-medium text-gray-900 truncate dark:text-gray-300'
               role='none'
             >
-              {user.email}
+              {user?.email}
             </p>
           </div>
           <ul className='py-1' role='none'>

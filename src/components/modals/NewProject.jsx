@@ -3,18 +3,14 @@ import 'antd/dist/reset.css';
 
 export default function NewProject({ onAdd, onCancel }) {
   function handleSave(values) {
-    onAdd({
-      title: values.projectName,
-      description: values.description,
-      dueDate: values.dueDate,
-    });
+    onAdd(values);
   }
 
   return (
     <Form layout='vertical' className='space-y-4' onFinish={handleSave}>
       <Form.Item
         label='Project Name'
-        name='projectName'
+        name='title'
         rules={[{ required: true, message: 'Please enter the project name' }]}
       >
         <Input

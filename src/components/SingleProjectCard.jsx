@@ -1,15 +1,22 @@
 import { DeleteOutlined } from '@ant-design/icons';
-import { Button, Card, notification, Typography } from 'antd';
+import { Card, notification, Popconfirm, Typography } from 'antd';
 import axios from 'axios';
 import moment from 'moment';
 
 const { Title, Paragraph } = Typography;
 
 export default function SingleProjectCard({ project }) {
+  const token = localStorage.getItem('token');
+
   const handleDeleteProject = async id => {
     try {
       const response = await axios.delete(
-        `${import.meta.env.VITE_APP_API_URL}/api/project/${id}`
+        `${import.meta.env.VITE_APP_API_URL}/api/project/${id}`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
       );
 
       if (response.status === 200) {
@@ -49,11 +56,24 @@ export default function SingleProjectCard({ project }) {
       <Paragraph className='font-bold text-white'>
         Due Date: {moment(project.dueDate).format('DD-MM-YYYY')}
       </Paragraph>
-      <Button
+      {/* <Button
         className='absolute bottom-2 right-2 p-2'
         icon={<DeleteOutlined />}
         onClick={() => handleDeleteProject(project._id)}
-      />
+      /> */}
+      <Popconfirm
+        placement='left'
+        title={`This will delete ${project?.title}`}
+        onConfirm={() => handleDeleteProject(project?._id)}
+        okText='Ok'
+        cancelText='Cancel'
+        okButtonProps={{ className: 'bg-dark-navy' }}
+      >
+        <DeleteOutlined
+          className='absolute bottom-2 right-2 p-2 text-white text-xl'
+          title='Remove Task'
+        />
+      </Popconfirm>
     </Card>
   );
 }

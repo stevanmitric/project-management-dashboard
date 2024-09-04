@@ -82,7 +82,10 @@ export default function EditUser() {
       </Form.Item>
 
       <Form.Item label='Choose a Role' name='role' required>
-        <Select className='rounded-lg border-gray-300 shadow-sm '>
+        <Select
+          mode='multiple'
+          className='rounded-lg border-gray-300 shadow-sm'
+        >
           <Select.Option value=''></Select.Option>
           <Select.Option value='admin'>Admin</Select.Option>
           <Select.Option value='manager'>Manager</Select.Option>
