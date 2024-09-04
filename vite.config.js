@@ -7,4 +7,7 @@ export default defineConfig({
   build: {
     outDir: 'dist',
   },
+  server: {
+    port: 3000, // The port number the development server will listen on
+  },
 });
