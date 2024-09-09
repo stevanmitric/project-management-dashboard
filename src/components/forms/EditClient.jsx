@@ -1,13 +1,15 @@
 import { Button, Form, Input, Select, notification } from 'antd';
 import axios from 'axios';
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import { useParams } from 'react-router-dom';
+import { useManagersStore } from '../../helpers/store';
 
 export default function EditClient() {
   const [form] = Form.useForm();
 
   const { id } = useParams();
 
+  const { managers, setManagers } = useManagersStore();
   const token = localStorage.getItem('token');
 
   const getClientById = async id => {
@@ -24,8 +26,6 @@ export default function EditClient() {
       form.setFieldsValue(response.data);
     }
   };
-
-  const [managers, setManagers] = useState([]);
 
   const getAllManagers = async () => {
     try {

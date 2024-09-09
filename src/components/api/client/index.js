@@ -37,4 +37,21 @@ export const clientsAPI = {
       console.error(error);
     }
   },
+
+  deleteClientById: async id => {
+    try {
+      const response = await axios.delete(
+        `${import.meta.env.VITE_APP_API_URL}/api/client/${id}`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+
+      return response.data;
+    } catch (error) {
+      console.error(error);
+    }
+  },
 };

@@ -72,4 +72,23 @@ export const usersAPI = {
       console.error(error);
     }
   },
+
+  deleteUserById: async id => {
+    try {
+      const response = await axios.delete(
+        `${import.meta.env.VITE_APP_API_URL}/api/user/${id}`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+
+      if (response.status === 200) {
+        return response;
+      }
+    } catch (error) {
+      console.error(error);
+    }
+  },
 };

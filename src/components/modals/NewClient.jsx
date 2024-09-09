@@ -1,11 +1,12 @@
 import { Button, Form, Input, Select } from 'antd';
 import axios from 'axios';
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
+import { useManagersStore } from '../../helpers/store';
 
 export default function NewClient({ onAdd }) {
   const [form] = Form.useForm();
 
-  const [managers, setManagers] = useState([]);
+  const { managers, setManagers } = useManagersStore();
 
   const token = localStorage.getItem('token');
 

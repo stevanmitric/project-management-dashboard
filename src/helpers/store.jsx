@@ -1,41 +1,59 @@
 import { create } from 'zustand';
 
-export const userStore = create(set => ({
+export const useUserStore = create(set => ({
   user: null,
   setUser: newUser => set({ user: newUser }),
 }));
 
-export const tokenStore = create(set => ({
+export const useTokenStore = create(set => ({
   token: null,
   setToken: newToken => set({ token: newToken }),
 }));
 
-export const managersStore = create(set => ({
+export const useManagersStore = create(set => ({
   managers: [],
   setManagers: array => set({ managers: array }),
 }));
 
-export const dropdownStore = create(set => ({
+export const useDropdownStore = create(set => ({
   isDropdownVisible: false,
-  setIsDropdownVisible: () => set({ isDropdownVisible: !isDropdownVisible }),
+  setIsDropdownVisible: () =>
+    set(state => ({ isDropdownVisible: !state.isDropdownVisible })),
 }));
 
-export const searchTermStore = create(set => ({
+export const useSearchTermStore = create(set => ({
   term: null,
   setTerm: value => set({ term: value }),
 }));
 
-export const taskDropDownStore = create(set => ({
+export const useTaskDropDownStore = create(set => ({
   isOpen: false,
-  setIsOpen: () => set({ isOpen: !isOpen }),
+  setIsOpen: () => set(state => ({ isOpen: !state.isOpen })),
 }));
 
-export const showTaskModalStore = create(set => ({
+export const useShowTaskModalStore = create(set => ({
   showTaskModal: false,
-  setShowTaskModal: () => set({ showTaskModal: !showTaskModal }),
+  setShowTaskModal: () =>
+    set(state => ({ showTaskModal: !state.showTaskModal })),
 }));
 
-export const selectedTaskStore = create(set => ({
+export const useSelectedTaskStore = create(set => ({
   selectedTask: null,
   setSelectedTask: value => set({ selectedTask: value }),
+}));
+
+export const useClientsStore = create(set => ({
+  clients: [],
+  setClients: array => set({ clients: array }),
+}));
+
+export const useShowClientModalStore = create(set => ({
+  showClientModal: false,
+  setShowClientModal: () =>
+    set(state => ({ showClientModal: !state.showClientModal })),
+}));
+
+export const useLoadingStore = create(set => ({
+  isLoading: false,
+  setIsLoading: () => set(state => ({ isLoading: !state.isLoading })),
 }));

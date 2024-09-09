@@ -2,7 +2,7 @@ import axios from 'axios';
 import { token } from '../../../helpers/get-token';
 
 export const tasksAPI = {
-  createTask: async task => {
+  createTask: async (task, listId) => {
     try {
       const response = await axios.post(
         `${import.meta.env.VITE_APP_API_URL}/api/tasks`,

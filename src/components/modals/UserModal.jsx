@@ -1,11 +1,9 @@
-import { useContext, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useContext } from 'react';
 import { AuthContext } from '../../AuthProvider';
+import { useDropdownStore } from '../../helpers/store';
 
 export default function UserModal() {
-  const [isDropdownVisible, setIsDropdownVisible] = useState(false);
-
-  const navigate = useNavigate();
+  const { isDropdownVisible, setIsDropdownVisible } = useDropdownStore();
 
   const { logout, user } = useContext(AuthContext);
 
@@ -34,7 +32,7 @@ export default function UserModal() {
       </button>
       {isDropdownVisible && (
         <div
-          className='absolute right-0 z-50 my-4 text-base list-none bg-dark-navy divide-y divide-gray-100 rounded shadow  dark:divide-gray-600'
+          className='absolute mt-7 right-0 z-50 my-4 text-base list-none bg-dark-navy divide-y divide-gray-100 rounded shadow  dark:divide-gray-600'
           id='dropdown-user'
         >
           <div className='px-4 py-3' role='none'>

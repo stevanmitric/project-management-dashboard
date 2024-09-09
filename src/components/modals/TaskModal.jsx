@@ -15,8 +15,6 @@ export default function TaskModal({
   const { user } = useContext(AuthContext);
 
   const handleSave = values => {
-    console.log('due date', values);
-
     onAdd({
       title: values.title,
       description: values.description,
@@ -28,8 +26,6 @@ export default function TaskModal({
   };
 
   const handleUpdate = values => {
-    console.log('update values', values);
-
     onUpdate({
       title: values.title,
       description: values.description,

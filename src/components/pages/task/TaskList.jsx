@@ -10,13 +10,16 @@ import {
   Modal,
   Typography,
 } from 'antd';
-import { useState } from 'react';
+import {
+  useSelectedTaskStore,
+  useShowTaskModalStore,
+} from '../../../helpers/store';
 import { tasksAPI } from '../../api/task';
 import TaskModal from '../../modals/TaskModal';
 
 export default function TaskList({ title, tasks, projectId, listId }) {
-  const [showTaskModal, setShowTaskModal] = useState(false);
-  const [selectedTask, setSelectedTask] = useState(null);
+  const { showTaskModal, setShowTaskModal } = useShowTaskModalStore();
+  const { selectedTask, setSelectedTask } = useSelectedTaskStore();
 
   const { Title } = Typography;
 
@@ -36,7 +39,7 @@ export default function TaskList({ title, tasks, projectId, listId }) {
 
   const handleAddTask = async task => {
     try {
-      await tasksAPI.createTask(task);
+      await tasksAPI.createTask(task, listId);
 
       setShowTaskModal(false);
       window.location.reload();

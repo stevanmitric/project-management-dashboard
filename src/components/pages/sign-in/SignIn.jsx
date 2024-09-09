@@ -1,29 +1,16 @@
 import { Button, Checkbox, Form, Input, notification, Typography } from 'antd';
-import { useContext, useState } from 'react';
+import { useContext } from 'react';
 import { AuthContext } from '../../../AuthProvider';
 import { signInAPI } from '../../api/sign-in';
 
 export default function SignIn() {
-  const [formData, setFormData] = useState({
-    email: '',
-    password: '',
-    remember: false,
-  });
+  const [form] = Form.useForm();
 
   const { login } = useContext(AuthContext);
 
-  const handleChange = e => {
-    const { name, value, type, checked } = e.target;
-
-    setFormData({
-      ...formData,
-      [name]: type === 'checkbox' ? checked : value,
-    });
-  };
-
-  const handleSubmit = async () => {
+  const handleSubmit = async values => {
     try {
-      const response = await signInAPI.signIn(formData);
+      const response = await signInAPI.signIn(values);
 
       if (response.data.token) {
         // Call the login function from AuthContext with user data and token
@@ -57,6 +44,7 @@ export default function SignIn() {
             layout='vertical'
             className='mt-8 space-y-6'
             onFinish={handleSubmit}
+            form={form}
           >
             <Form.Item
               label={<span className='text-white'>Your email</span>}
@@ -66,8 +54,6 @@ export default function SignIn() {
               <Input
                 type='email'
                 name='email'
-                value={formData.email}
-                onChange={handleChange}
                 className='bg-gray-50 border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 dark:border-gray-600 dark:placeholder-gray-400 dark:focus:ring-blue-500 dark:focus:border-blue-500'
                 placeholder='name@company.com'
               />
@@ -81,8 +67,6 @@ export default function SignIn() {
             >
               <Input.Password
                 name='password'
-                value={formData.password}
-                onChange={handleChange}
                 placeholder='••••••••'
                 className='bg-gray-50 border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 dark:border-gray-600 dark:placeholder-gray-400 dark:focus:ring-blue-500 dark:focus:border-blue-500'
               />
@@ -90,8 +74,6 @@ export default function SignIn() {
             <Form.Item name='remember' valuePropName='checked'>
               <Checkbox
                 name='remember'
-                checked={formData.remember}
-                onChange={handleChange}
                 className='text-gray-500 dark:text-gray-400'
               >
                 Remember this device

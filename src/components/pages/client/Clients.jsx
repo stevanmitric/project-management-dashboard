@@ -1,12 +1,25 @@
-import { Button, Layout, Modal, Table, Typography, theme } from 'antd';
-import { useEffect, useState } from 'react';
+import { DeleteOutlined, EditOutlined } from '@ant-design/icons';
+import {
+  Button,
+  Layout,
+  Modal,
+  Popconfirm,
+  Table,
+  Typography,
+  theme,
+} from 'antd';
+import { useEffect } from 'react';
+import {
+  useClientsStore,
+  useShowClientModalStore,
+} from '../../../helpers/store';
 import { clientsAPI } from '../../api/client';
 import '../../DarkModeTable.css';
 import NewClient from '../../modals/NewClient';
 
 export default function Clients() {
-  const [clients, setClients] = useState([]);
-  const [showClientModal, setShowClientModal] = useState(false);
+  const { clients, setClients } = useClientsStore();
+  const { showClientModal, setShowClientModal } = useShowClientModalStore();
   const { Title } = Typography;
 
   const { Content } = Layout;
@@ -34,6 +47,16 @@ export default function Clients() {
       await clientsAPI.createClient(client);
 
       setShowClientModal(false);
+
+      window.location.reload();
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  const handleDelete = async id => {
+    try {
+      await clientsAPI.deleteClientById(id);
 
       window.location.reload();
     } catch (error) {
@@ -80,12 +103,24 @@ export default function Clients() {
       title: 'Actions',
       key: 'actions',
       render: (_, record) => (
-        <a
-          href={`/client/${record._id}`}
-          className='font-medium text-white hover:underline'
-        >
-          Edit
-        </a>
+        <div className='flex space-x-4'>
+          <a
+            href={`/client/${record._id}`}
+            className='font-medium text-white hover:underline'
+          >
+            <EditOutlined />
+          </a>
+          <Popconfirm
+            title='Are you sure to delete this client?'
+            onConfirm={() => handleDelete(record._id)}
+            okText='Yes'
+            cancelText='No'
+          >
+            <a className='font-medium text-red-600 hover:underline'>
+              <DeleteOutlined />
+            </a>
+          </Popconfirm>
+        </div>
       ),
     },
   ];

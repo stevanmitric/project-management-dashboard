@@ -1,10 +1,12 @@
-import React, { createContext, useEffect, useState } from 'react';
+import React, { createContext, useEffect } from 'react';
+import { useTokenStore, useUserStore } from './helpers/store';
 
 export const AuthContext = createContext();
 
 export default function AuthProvider({ children }) {
-  const [user, setUser] = useState(null);
-  const [token, setToken] = useState(null);
+  const { user, setUser } = useUserStore();
+
+  const { token, setToken } = useTokenStore();
 
   useEffect(() => {
     const savedToken = localStorage.getItem('token');

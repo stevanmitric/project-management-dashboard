@@ -1,8 +1,8 @@
 import { Input } from 'antd';
-import { useState } from 'react';
+import { useSearchTermStore } from '../../helpers/store';
 
 export default function SearchBar({ handleSearch, page }) {
-  const [term, setTerm] = useState('');
+  const { term, setTerm } = useSearchTermStore();
 
   const { Search } = Input;
 

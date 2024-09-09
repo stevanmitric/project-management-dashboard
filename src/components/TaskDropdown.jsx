@@ -1,8 +1,9 @@
 import { DownOutlined, UpOutlined } from '@ant-design/icons';
 import { Button, Card } from 'antd';
-import React, { useState } from 'react';
+import React from 'react';
+import { useTaskDropDownStore } from '../helpers/store';
 export default function TaskDropdown({ reporter, assignee }) {
-  const [isOpen, setIsOpen] = useState(false);
+  const { isOpen, setIsOpen } = useTaskDropDownStore();
 
   const toggleDropdown = () => {
     setIsOpen(!isOpen);

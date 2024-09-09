@@ -1,35 +1,21 @@
-import { Button, Checkbox, Form, Input, Typography } from 'antd';
-import { useState } from 'react';
+import { Button, Checkbox, Form, Input, Typography, notification } from 'antd';
 import { signUpAPI } from '../../api/sign-up';
 
 export default function SignUp() {
-  const [formData, setFormData] = useState({
-    firstName: '',
-    lastName: '',
-    email: '',
-    password: '',
-    confirmPassword: '',
-    remember: false,
-  });
+  const [form] = Form.useForm();
 
-  const handleChange = e => {
-    const { name, value, type, checked } = e.target;
-
-    setFormData({
-      ...formData,
-      [name]: type === 'checkbox' ? checked : value,
-    });
-  };
-
-  const handleSubmit = async () => {
+  const handleSubmit = async values => {
     try {
-      const response = await signUpAPI.signUp(formData);
+      const response = await signUpAPI.signUp(values);
 
       if (response.status === 201) {
         window.location.href = '/login';
       } else {
         console.error('Error with sign up');
-        alert('Sign up failed!');
+        notification.error({
+          message: 'Failed',
+          description: 'Sign up failed!',
+        });
       }
     } catch (error) {
       console.error('Error during sign up: ', error);
@@ -57,8 +43,6 @@ export default function SignUp() {
             >
               <Input
                 name='firstName'
-                value={formData.firstName}
-                onChange={handleChange}
                 className='bg-gray-50 border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 dark:border-gray-600 dark:placeholder-gray-400  dark:focus:ring-blue-500 dark:focus:border-blue-500'
                 placeholder='John'
               />
@@ -72,8 +56,6 @@ export default function SignUp() {
             >
               <Input
                 name='lastName'
-                value={formData.lastName}
-                onChange={handleChange}
                 className='bg-gray-50 border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 dark:border-gray-600 dark:placeholder-gray-400  dark:focus:ring-blue-500 dark:focus:border-blue-500'
                 placeholder='Doe'
               />
@@ -86,8 +68,6 @@ export default function SignUp() {
               <Input
                 type='email'
                 name='email'
-                value={formData.email}
-                onChange={handleChange}
                 className='bg-gray-50 border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 dark:border-gray-600 dark:placeholder-gray-400  dark:focus:ring-blue-500 dark:focus:border-blue-500'
                 placeholder='name@company.com'
               />
@@ -101,8 +81,6 @@ export default function SignUp() {
             >
               <Input.Password
                 name='password'
-                value={formData.password}
-                onChange={handleChange}
                 placeholder='••••••••'
                 className='bg-gray-50 border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 dark:border-gray-600 dark:placeholder-gray-400  dark:focus:ring-blue-500 dark:focus:border-blue-500'
               />
@@ -116,8 +94,6 @@ export default function SignUp() {
             >
               <Input.Password
                 name='confirmPassword'
-                value={formData.confirmPassword}
-                onChange={handleChange}
                 placeholder='••••••••'
                 className='bg-gray-50 border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 dark:border-gray-600 dark:placeholder-gray-400  dark:focus:ring-blue-500 dark:focus:border-blue-500'
               />
@@ -125,8 +101,6 @@ export default function SignUp() {
             <Form.Item name='remember' valuePropName='checked'>
               <Checkbox
                 name='remember'
-                checked={formData.remember}
-                onChange={handleChange}
                 className='text-gray-500 dark:text-gray-400'
               >
                 Remember this device

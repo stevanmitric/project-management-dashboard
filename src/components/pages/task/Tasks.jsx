@@ -12,6 +12,7 @@ import axios from 'axios';
 import moment from 'moment';
 import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
+import { useShowTaskModalStore } from '../../../helpers/store';
 import '../../DarkModeTable.css';
 import TaskModal from '../../modals/TaskModal';
 
@@ -26,7 +27,7 @@ export default function Tasks() {
     token: { colorBgContainer },
   } = theme.useToken();
   const [tasks, setTasks] = useState([]);
-  const [showTaskModal, setShowTaskModal] = useState(false);
+  const { showTaskModal, setShowTaskModal } = useShowTaskModalStore();
 
   const getAllTasks = async projectId => {
     try {
@@ -56,6 +57,8 @@ export default function Tasks() {
 
   const handleAddTask = async task => {
     try {
+      console.log('task add', task);
+
       await axios.post(`${import.meta.env.VITE_APP_API_URL}/api/tasks`, task, {
         headers: {
           Authorization: `Bearer ${token}`,

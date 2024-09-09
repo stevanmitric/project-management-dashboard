@@ -1,10 +1,11 @@
 import { PlusOutlined } from '@ant-design/icons';
-import { Button, Layout, Modal, Select, Typography, theme } from 'antd';
+import { Button, Layout, Modal, Select, Spin, Typography, theme } from 'antd';
 import { useEffect, useState } from 'react';
 import SearchBar from '../../forms/SearchBar';
 import NewProject from '../../modals/NewProject';
 import SingleProjectCard from '../../SingleProjectCard';
 
+import { useLoadingStore } from '../../../helpers/store';
 import { projectsAPI } from '../../api/project';
 
 const { Title } = Typography;
@@ -16,6 +17,8 @@ export default function Projects() {
   const [projects, setProjects] = useState([]);
   const [searchQuery, setSearchQuery] = useState('');
 
+  const { isLoading, setIsLoading } = useLoadingStore();
+
   const [selectedTypes, setSelectedTypes] = useState([]);
 
   const {
@@ -24,9 +27,12 @@ export default function Projects() {
 
   const getAllProjects = async () => {
     try {
+      setIsLoading(true);
       const response = await projectsAPI.getAllProjects();
 
       setProjects(response);
+
+      setIsLoading(false);
     } catch (error) {
       console.error('error', error);
     }
@@ -40,7 +46,7 @@ export default function Projects() {
     try {
       await projectsAPI.createProject(project);
       setShowProjectModal(false);
-      getAllProjects(); // Refresh the project list
+      getAllProjects();
     } catch (error) {
       console.error('Failed to add project:', error);
     }
@@ -113,12 +119,17 @@ export default function Projects() {
           <NewProject onAdd={handleAddProject} onCancel={handleCancel} />
         </Modal>
         <div className='grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4'>
-          {filteredProjects && filteredProjects.length > 0 ? (
+          {isLoading && filteredProjects.length === 0 ? (
+            <Spin size='large' />
+          ) : filteredProjects && filteredProjects.length > 0 ? (
             filteredProjects.map(project => (
               <SingleProjectCard key={project._id} project={project} />
             ))
           ) : (
-            <Title level={4}>No projects found</Title>
+            !isLoading &&
+            filteredProjects.length === 0 && (
+              <Title level={4}>No projects found</Title>
+            )
           )}
         </div>
       </div>
