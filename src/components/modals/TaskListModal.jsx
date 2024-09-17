@@ -24,13 +24,13 @@ export default function TaskListModal({ onAdd }) {
           name='title'
           rules={[{ required: true, message: 'Please enter the list name' }]}
         >
-          <Input
-            placeholder='To Do'
-            className='max-w-96 dark:border-gray-500 dark:placeholder-gray-400'
-          />
-        </Form.Item>
-        <Form.Item>
-          <Button htmlType='submit' icon={<CheckOutlined />} />
+          <div className='flex items-center space-x-2'>
+            <Input
+              placeholder='To Do'
+              className='max-w-96 dark:border-gray-500 dark:placeholder-gray-400'
+            />
+            <Button htmlType='submit' icon={<CheckOutlined />} />
+          </div>
         </Form.Item>
       </Form>
     </div>

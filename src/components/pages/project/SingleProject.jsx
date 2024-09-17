@@ -1,8 +1,14 @@
-import { PlusOutlined, UserAddOutlined, UserOutlined } from '@ant-design/icons';
-import { Avatar, Button, Modal, Select } from 'antd';
+import {
+  CheckOutlined,
+  PlusOutlined,
+  UserAddOutlined,
+  UserOutlined,
+} from '@ant-design/icons';
+import { Avatar, Button, Input, Modal, Select } from 'antd';
 import moment from 'moment';
 import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
+import { inviteAPI } from '../../api/invite';
 import { projectsAPI } from '../../api/project';
 import SearchBar from '../../forms/SearchBar';
 import TaskListModal from '../../modals/TaskListModal';
@@ -18,9 +24,13 @@ export default function SingleProject() {
   const [showListModal, setShowListModal] = useState(false);
   const [lists, setLists] = useState([]);
 
+  const [showEmailInput, setShowEmailInput] = useState(false);
+
   const [view, setView] = useState('board');
 
   const [searchQuery, setSearchQuery] = useState('');
+
+  const [email, setEmail] = useState('');
 
   const handleSearch = query => {
     setSearchQuery(query);
@@ -79,6 +89,18 @@ export default function SingleProject() {
     }
   };
 
+  const handleSendInvite = async e => {
+    try {
+      e.preventDefault();
+      console.log('email', email);
+
+      setShowEmailInput(!showEmailInput);
+      await inviteAPI.sendInvite(email);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
   const handleChangeView = value => {
     setView(value);
   };
@@ -106,16 +128,34 @@ export default function SingleProject() {
           className='mb-4'
           size='small'
           icon={
-            <span className='text-2xl'>
+            <span className='text-xl'>
               <UserOutlined />
             </span>
           }
         />
-        <span className='mb-4 ml-4 text-2xl'>
-          <UserAddOutlined />
-        </span>
+        <Button
+          type='text'
+          className='mb-4 ml-4'
+          icon={<UserAddOutlined />}
+          onClick={() => setShowEmailInput(!showEmailInput)}
+        />
+        {showEmailInput && (
+          <div className='flex items-center space-x-2 ml-2'>
+            <Input
+              placeholder='Enter email'
+              className='max-w-96 dark:border-gray-500 dark:placeholder-gray-400'
+              value={email}
+              onChange={e => setEmail(e.target.value)}
+            />
+            <Button
+              htmlType='submit'
+              onClick={handleSendInvite}
+              icon={<CheckOutlined />}
+            />
+          </div>
+        )}
         <Select
-          className='rounded-lg border-gray-300 shadow-sm w-48 mb-4 ml-28'
+          className='rounded-lg border-gray-300 shadow-sm w-48 mb-4 ml-44'
           onChange={handleChangeView}
           placeholder='Planning'
           defaultValue='board'

@@ -6,7 +6,6 @@ import {
   Divider,
   Dropdown,
   List,
-  Menu,
   Modal,
   Typography,
 } from 'antd';
@@ -48,14 +47,17 @@ export default function TaskList({ title, tasks, projectId, listId }) {
     }
   };
 
-  const menu = (
-    <Menu className='bg-dark-navy'>
-      <Menu.Item key='setLimit'>Set Limit</Menu.Item>
-      <Menu.Item key='delete' onClick={() => handleDeleteList(listId)}>
-        Delete
-      </Menu.Item>
-    </Menu>
-  );
+  const menu = [
+    {
+      key: 'setLimit',
+      label: 'Set Limit',
+    },
+    {
+      key: 'delete',
+      label: 'Delete',
+      onClick: () => handleDeleteList(listId),
+    },
+  ];
 
   const handleUpdateTask = async task => {
     try {
@@ -113,11 +115,10 @@ export default function TaskList({ title, tasks, projectId, listId }) {
           <>
             <div className='flex items-center justify-between p-2'>
               <div className='text-xl font-bold text-white'>{title}</div>
-              <Dropdown overlay={menu} trigger={['click']}>
-                <Button
-                  className='bg-dark-navy text-white'
-                  icon={<MoreOutlined rotate={90} />}
-                />
+              <Dropdown menu={{ items: menu }} trigger={['click']}>
+                <Button className='bg-dark-navy text-white'>
+                  <MoreOutlined rotate={90} />
+                </Button>
               </Dropdown>
             </div>
             <Divider className='bg-white mt-0 mb-2' />
