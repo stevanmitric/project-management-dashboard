@@ -53,33 +53,34 @@ export default function Tasks() {
 
   useEffect(() => {
     getAllTasks(id);
-  }, [id]);
+  }, []);
 
   const handleAddTask = async task => {
     try {
-      console.log('task add', task);
-
       await axios.post(`${import.meta.env.VITE_APP_API_URL}/api/tasks`, task, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
       });
       setShowTaskModal(false);
-      getAllTasks();
+      getAllTasks(id);
     } catch (error) {
       console.error('Error adding user:', error);
     }
   };
 
-  const handleDeleteTask = async id => {
+  const handleDeleteTask = async taskId => {
     try {
-      await axios.delete(`${import.meta.env.VITE_APP_API_URL}/api/task/${id}`, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
+      await axios.delete(
+        `${import.meta.env.VITE_APP_API_URL}/api/task/${taskId}`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
       setShowTaskModal(false);
-      window.location.reload();
+      getAllTasks(id);
     } catch (error) {
       console.error(error);
     }

@@ -1,13 +1,17 @@
 import axios from 'axios';
 import { token } from '../../../helpers/get-token';
 export const usersAPI = {
-  getAllUsers: async () => {
+  getAllUsers: async user => {
     try {
+      const filter = { _id: { $ne: user._id } };
       const response = await axios.get(
         `${import.meta.env.VITE_APP_API_URL}/api/users`,
         {
           headers: {
             Authorization: `Bearer ${token}`,
+          },
+          params: {
+            filter: JSON.stringify(filter),
           },
         }
       );

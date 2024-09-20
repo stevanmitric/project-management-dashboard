@@ -1,10 +1,12 @@
 import { Layout, Table, Typography, theme } from 'antd';
-import { useEffect, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
+import { AuthContext } from '../../../AuthProvider';
 import { usersAPI } from '../../api/user';
 import '../../DarkModeTable.css';
 import { columns } from './UserTableColumns';
 
 export default function User() {
+  const { user } = useContext(AuthContext);
   const { Title } = Typography;
 
   const { Content } = Layout;
@@ -12,11 +14,10 @@ export default function User() {
     token: { colorBgContainer },
   } = theme.useToken();
   const [users, setUsers] = useState([]);
-  // const [showUserModal, setShowUserModal] = useState(false);
 
   const getAllUsers = async () => {
     try {
-      const response = await usersAPI.getAllUsers();
+      const response = await usersAPI.getAllUsers(user);
       setUsers(response);
     } catch (error) {
       console.error('Error: ', error);
@@ -26,24 +27,6 @@ export default function User() {
   useEffect(() => {
     getAllUsers();
   }, []);
-
-  // const handleAddUser = async user => {
-  //   try {
-  //     await usersAPI.createUser(user);
-  //     setShowUserModal(false);
-  //     getAllUsers();
-  //   } catch (error) {
-  //     console.error('Error adding user:', error);
-  //   }
-  // };
-
-  // const handleCancel = () => {
-  //   setShowUserModal(false);
-  // };
-
-  // const handleOpenModal = () => {
-  //   setShowUserModal(true);
-  // };
 
   return (
     <Content className={`p-2 m-0 ${colorBgContainer} rounded-lg h-full`}>
